@@ -1,0 +1,29 @@
+.main {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10vh;
+  border-bottom: 1px solid #ced4da;
+}
+
+.logo {
+  position: relative;
+  width: 156px;
+  height: 43px;
+}
+
+.btn {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.signup {
+  background-color: #000;
+  color: #fff;
+  padding: 15px 40px;
+  border-radius: 42px;
+}

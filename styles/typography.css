@@ -1,0 +1,172 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url(/fonts/Poppins-Regular.ttf);
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(/fonts/Poppins-SemiBold.ttf);
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url(/fonts/Rubik-Light.ttf);
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url(/fonts/Rubik-Regular.ttf);
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url(/fonts/Rubik-Medium.ttf);
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url(/fonts/Rubik-SemiBold.ttf);
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url(/fonts/Rubik-Bold.ttf);
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neuton';
+    src: url(/fonts/Neuton-Regular.ttf);
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito Sans';
+    src: url(/fonts/NunitoSans-Bold.ttf);
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Courier Prime';
+    src: url(/fonts/CourierPrime-Regular.ttf);
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Shadows Into Light';
+    src: url(/fonts/ShadowsIntoLight-Regular.ttf);
+    font-weight: 400;
+    font-display: swap;
+}
+
+.light {
+    font-weight: 200;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.medium {
+    font-weight: 500;
+}
+
+.normal {
+    font-weight: normal;
+}
+
+.text-small {
+    font-size: 12px;
+}
+
+.text-medium {
+    font-size: 18px;
+}
+
+.text-large {
+    font-size: 20px;
+}
+
+.text-xl {
+    font-size: 28px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 145%;
+}
+
+.heading-1 {
+    font-size: 24px;
+}
+
+.heading-2 {
+    font-size: 22px;
+    color: #1a202e;
+}
+
+.heading-3 {
+    font-size: 20px;
+    color: #1a202e;
+}
+
+.heading-4 {
+    font-size: 16px;
+    color: #1a202e;
+}
+
+.heading-5 {
+    font-size: 14px;
+}
+
+.intro-copy {
+    font-size: 14px;
+}
+
+@media (min-width: 600px) {
+    .heading-1 {
+        font-size: 36px;
+    }
+
+    .heading-2 {
+        font-size: 32px;
+    }
+
+    .heading-3 {
+        font-size: 24px;
+    }
+
+    .heading-4,
+    .heading-5 {
+        font-size: 20px;
+    }
+
+    .intro-copy {
+        font-size: 18px;
+    }
+
+    .text-xl {
+        font-size: 48px;
+    }
+}

@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /*Adds smooth scrolling instead of snapping to element*/
+}
+
+body {
+  font-family: Rubik, Verdana, sans-serif;
+  font-style: normal;
+  overflow-x: hidden;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style-type: none;
+}
+
+:root {
+  background: #ffe;
+  font-size: 16px;
+  font-family: monospace;
+}
+
+.next-image {
+  object-fit: cover;
+  object-position: top;
+}
+
+.orangetext {
+  color: #ff974a;
+}
+
+.purpletext {
+  color: #6729f3;
+}
+
+.violet {
+  color: #a83cff;
+}
+
+/* generic popup style  */
+.popup-content {
+  border-radius: 8px;
+  padding: 60px !important;
+  width: 80% !important;
+}
+
+@media (min-width: 900px) {
+  .popup-content {
+    width: 50% !important;
+  }
+}
+
+button {
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
