@@ -30,7 +30,7 @@ const Herobox = () => {
         </h2>
       </div>
       <div className={classes.img}>
-        <Image src="/assets/Homepage/homepage.svg" alt="herobox pic" fill />
+        <Image src="/assets/Homepage/homepage.webp" alt="herobox pic" fill />
       </div>
     </section>
   );

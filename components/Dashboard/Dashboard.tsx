@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classes from './Dashboard.module.css';
 import { IBoard, ICard } from '@/Interfaces/Kanban';
 import { data } from '@/utils/constants/dummyData';
-import Board from '../Board/Board';
+import Board from '../Board';
 
 function Dashboard() {
   const [boards, setBoards] = useState<IBoard[]>([]);

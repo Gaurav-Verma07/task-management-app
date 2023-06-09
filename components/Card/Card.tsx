@@ -5,7 +5,7 @@ import Dropdown from '../Dropdown/Dropdown';
 import classes from './Card.module.css';
 import CardInfo from './CardInfo/CardInfo';
 import { IconAlarm, IconAlignLeft, IconDots, IconSquareCheck } from '@tabler/icons-react';
-import LoginContext from '@/context/loginContext';
+import { ModalContext } from '@/context';
 
 interface CardProps {
   card: ICard;
@@ -21,13 +21,13 @@ function Card(props: CardProps) {
   const { id, title, desc, date, tasks, labels } = card;
   const [showDropdown, setShowDropdown] = useState(false);
   // const [showModal, setShowModal] = useState(false);
-  const { setIsLogging, isLogging } = useContext(LoginContext);
+  const { setIsOpen, isOpen } = useContext(ModalContext);
   console.log('card',{card})
 
   return (
     <>
-      {/* {isLogging && (
-        <CardInfo onClose={() => setIsLogging(false)} card={card} boardId={boardId} updateCard={updateCard} />
+      {/* {isOpen && (
+        <CardInfo onClose={() => setIsOpen(false)} card={card} boardId={boardId} updateCard={updateCard} />
       )} */}
       <div
         className={classes.card}
@@ -35,7 +35,7 @@ function Card(props: CardProps) {
         draggable
         onDragEnd={() => onDragEnd(boardId, id)}
         onDragEnter={() => onDragEnter(boardId, id)}
-        onClick={() => setIsLogging(true)}
+        onClick={() => setIsOpen(true)}
       >
         <div className={classes['card-top']}>
           <div className={classes['card-top-labels']}>
@@ -79,7 +79,7 @@ function Card(props: CardProps) {
           )}
         </div>
       </div>
-        {isLogging && (
+        {isOpen && (
           <CardInfo card={card} boardId={boardId} updateCard={updateCard} />
         )}
     </>

@@ -1,4 +1,8 @@
 .preview{
-    width:100px !important;
+    width:80px !important;
     aspect-ratio:1 ;
+    border: 1px solid #777777;
+    margin: 3px;
+    padding: 5px;
+    border-radius: 7px;;
 }

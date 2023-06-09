@@ -1,4 +1,4 @@
-import { DashHeader, DashNavbar, Dashboard, Header } from '@/components';
+import { DashNavbar, Dashboard, Header, Profile, Stats } from '@/components';
 import { AppShell, Paper, ScrollArea } from '@mantine/core';
 import { useRouter } from 'next/router';
 
@@ -8,23 +8,38 @@ const Box = () => {
 
   console.log({ id });
 
+  let RenderComponent;
+
+  switch (id) {
+    case 'home':
+      RenderComponent = Dashboard;
+      break;
+    case 'analytics':
+      RenderComponent = Stats;
+      break;
+    case 'user':
+      RenderComponent = Profile;
+      break;
+    default:
+      RenderComponent = null;
+  }
+
   return (
     <AppShell
       sx={() => ({
         position: 'relative',
         '& .mantine-1682jzp': {
           // paddingLeft: '10px',
-          width:0,
+          width: 0,
           '@media (max-width:900px)': {
             paddingLeft: '10px',
             paddingRight: '10px',
           },
         },
-        
       })}
       style={{ backgroundColor: '#F1EEF9' }}
       navbar={<DashNavbar />}
-      header={<DashHeader />}
+      header={<Header />}
     >
       <Paper
         sx={() => ({

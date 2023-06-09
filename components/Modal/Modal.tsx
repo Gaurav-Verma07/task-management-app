@@ -1,30 +1,24 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
 import { useContext } from 'react';
-import LoginContext from '@/context/loginContext';
+import LoginContext from '@/context/modalContext';
 
 const ModalBox = ({ children, title }: any) => {
   const [opened, { open, close }] = useDisclosure(true);
-  const { setIsLogging, isLogging } = useContext(LoginContext);
-  console.log({open, isLogging})
+  const { setIsOpen } = useContext(LoginContext);
   return (
     <>
       <Modal
         opened={opened}
         onClose={() => {
           close();
-          setIsLogging(false);
+          setIsOpen(false);
         }}
         sx={() => ({
-          // background: '#F1EEF9',
-          // padding: '15px',
-          // display: 'flex',
-          // justifyContent: 'space-between',
-          '& .mantine-kea9ny':{
-            backgroundColor:'rgba(0, 0, 0, .3)'
-          }
+          '& .mantine-kea9ny': {
+            backgroundColor: 'rgba(0, 0, 0, .3)',
+          },
         })}
-  
         title={title}
         centered
       >

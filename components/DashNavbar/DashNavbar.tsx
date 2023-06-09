@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Stack, rem } from '@mantine/core';
 import {
   IconHome2,
@@ -12,6 +12,8 @@ import {
   IconSwitchHorizontal,
 } from '@tabler/icons-react';
 import Link from 'next/link';
+import { UserDataContext } from '@/context';
+import { useRouter } from 'next/router';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -70,11 +72,25 @@ const mockdata = [
 ];
 
 const DashNavbar = () => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
+  const { setUserData } = useContext(UserDataContext);
+  const router = useRouter();
 
   const links = mockdata.map((link, index) => (
     <NavbarLink {...link} key={link.label} active={index === active} onClick={() => setActive(index)} />
   ));
+
+  const logoutHandler = () => {
+    setUserData((prev) => ({
+      userId: '',
+      username: '',
+      email: '',
+      color: '',
+      isLoggedIn: false,
+      isPic: false,
+    }));
+    router.push('/');
+  };
 
   return (
     <Navbar
@@ -85,7 +101,6 @@ const DashNavbar = () => {
         zIndex: 100,
         background:
           'linear-gradient(180deg, rgba(81, 0, 255, 0.75) 36.87%, rgba(80, 0, 250, 0.5475) 56.67%, rgba(85, 9, 247, 0.75) 97.29%)',
-        borderRadius: '10px 10px 0 0',
       })}
     >
       <Navbar.Section grow mt={50}>
@@ -94,9 +109,9 @@ const DashNavbar = () => {
         </Stack>
       </Navbar.Section>
       <Navbar.Section>
-        <Stack justify="center" spacing={0}>
-          <NavbarLink to="/dashboard/switch" icon={IconSwitchHorizontal} label="Change account" />
-          <NavbarLink to="/dashboard/logout" icon={IconLogout} label="Logout" />
+        <Stack justify="center" spacing={30}>
+          <IconSwitchHorizontal color="#fff" />
+          <IconLogout color="#fff" onClick={logoutHandler} />
         </Stack>
       </Navbar.Section>
     </Navbar>
