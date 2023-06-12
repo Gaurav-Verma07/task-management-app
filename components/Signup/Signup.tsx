@@ -4,7 +4,6 @@ import { Stepper, Button, Group, Paper, AspectRatio, TextInput, PasswordInput } 
 import { useForm } from '@mantine/form';
 import Upload from '../DropZone/DropZone';
 import { account, db } from '@/services/appwriteConfig';
-import { ID } from 'appwrite';
 import { ToastContainer, toast } from 'react-toastify';
 import { randomColor } from '@/utils/constants/colors';
 import { uniqueId } from '@/utils/constants/uniqueId';
