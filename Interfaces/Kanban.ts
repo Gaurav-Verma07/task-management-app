@@ -10,7 +10,7 @@ export interface ITask {
 }
 
 export interface ICard {
-  id: number;
+  $id: string;
   title: string;
   labels: ILabel[];
   date: string;
@@ -19,7 +19,7 @@ export interface ICard {
 }
 
 export interface IBoard {
-  id: number;
+  id: string;
   title: string;
-  cards: ICard[];
+  cards: any;
 }

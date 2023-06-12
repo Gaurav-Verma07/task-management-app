@@ -26,12 +26,10 @@ const Login = () => {
   const loginHandler = async () => {
     try {
       const loggedUser = await account.createEmailSession(form.values.email, form.values.password);
-      // localStorage.setItem('userId', loggedUser.$id);
       const { userId } = loggedUser;
-      console.log({ loggedUser });
+      localStorage.setItem('userId', userId);
       db.getDocument('6481cad1448109f73920', '6481cada40114c73e2c1', userId)
         .then((res) => {
-          console.log({ res });
           const { userId, username, email, color, isPic } = res;
           setUserData({
             userId,
@@ -41,7 +39,6 @@ const Login = () => {
             isLoggedIn: true,
             isPic,
           });
-          console.log({ userData });
         })
         .catch((err) => console.log(err));
 
@@ -58,9 +55,7 @@ const Login = () => {
 
   const googleLogginHandler = async () => {
     try {
-      const loggedUser = account.createOAuth2Session('google', 'http://localhost:3000');
-      console.log({ loggedUser });
-      toast.info('logged in');
+      account.createOAuth2Session('google', 'http://localhost:3000');
     } catch (err: any) {
       toast.error(err.message);
     }

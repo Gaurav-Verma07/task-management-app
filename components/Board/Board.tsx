@@ -1,35 +1,47 @@
-import React, { useState } from "react";
-import {IconDots} from '@tabler/icons-react';
-import Card from "../Card/Card";
-import Dropdown from "../Dropdown/Dropdown";
-import CustomInput from "../CustomInput/CustomInput";
-import classes from './Board.module.css'
+import React, { useContext, useState } from 'react';
+import { IconDots } from '@tabler/icons-react';
+import Card from '../Card/Card';
+import Dropdown from '../Dropdown/Dropdown';
+import CustomInput from '../CustomInput/CustomInput';
+import classes from './Board.module.css';
 
 // import "./Board.css";
-import { IBoard, ICard } from "@/Interfaces/Kanban";
-import clsx from "clsx";
+import { IBoard, ICard } from '@/Interfaces/Kanban';
+import clsx from 'clsx';
+import { db } from '@/services/appwriteConfig';
+import { uniqueId } from '@/utils/constants/uniqueId';
+import { UserDataContext } from '@/context';
 
 interface BoardProps {
   board: IBoard;
-  addCard: (boardId: number, title: string) => void;
-  removeBoard: (boardId: number) => void;
-  removeCard: (boardId: number, cardId: number) => void;
-  onDragEnd: (boardId: number, cardId: number) => void;
-  onDragEnter: (boardId: number, cardId: number) => void;
-  updateCard: (boardId: number, cardId: number, card: ICard) => void;
+  removeBoard: (boardId: string) => void;
+  removeCard: (boardId: string, cardId: string) => void;
+  onDragEnd: (boardId: string, cardId: string) => void;
+  onDragEnter: (boardId: string, cardId: string) => void;
+  updateCard: (boardId: string, cardId: string, card: ICard) => void;
 }
 
 function Board(props: BoardProps) {
-  const {
-    board,
-    addCard,
-    removeBoard,
-    removeCard,
-    onDragEnd,
-    onDragEnter,
-    updateCard,
-  } = props;
+  const { board, removeBoard, removeCard, onDragEnd, onDragEnter, updateCard } = props;
   const [showDropdown, setShowDropdown] = useState(false);
+  const { userData } = useContext(UserDataContext);
+
+  const addCardHandler = (boardId: string, value: string) => {
+    const id = uniqueId();
+    db.createDocument('6481cad1448109f73920', '64844263188c2cafbebb', id, {
+      userId: userData.userId,
+      taskType: boardId,
+      assignedDate: new Date(Date.now()),
+      title: value,
+    })
+      .then((res) => {
+        console.log({ res });
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+  };
+
   return (
     <div className={classes.board}>
       <div className={classes.board_inner} key={board?.id}>
@@ -38,25 +50,27 @@ function Board(props: BoardProps) {
             {board?.title}
             <span>{board?.cards?.length || 0}</span>
           </p>
-          <div
-            className={classes.board_header_title_more}
-            onClick={() => setShowDropdown(true)}
-          >
+          <div className={classes.board_header_title_more} onClick={() => setShowDropdown(true)}>
             <IconDots />
             {showDropdown && (
-              <Dropdown
-                class={classes.board_dropdown}
-                onClose={() => setShowDropdown(false)}
-              >
+              <Dropdown class={classes.board_dropdown} onClose={() => setShowDropdown(false)}>
                 <p onClick={() => removeBoard(board?.id)}>Delete Board</p>
               </Dropdown>
             )}
           </div>
         </div>
-        <div className={clsx(classes.board_cards,  classes.custom_scroll)}>
-          {board?.cards?.map((item:any) => (
+        <div className={clsx(classes.board_cards, classes.custom_scroll)}>
+          <CustomInput
+            text="+ Add Card"
+            placeholder="Enter Card Title"
+            displayClass={classes.board_add_card}
+            editClass={classes.board_add_card_edit}
+            onSubmit={(value: string) => addCardHandler(board?.id, value)}
+          />
+
+          {board?.cards?.map((item: any) => (
             <Card
-              key={item.id}
+              key={item.$id}
               card={item}
               boardId={board.id}
               removeCard={removeCard}
@@ -65,13 +79,6 @@ function Board(props: BoardProps) {
               updateCard={updateCard}
             />
           ))}
-          <CustomInput
-            text="+ Add Card"
-            placeholder="Enter Card Title"
-            displayClass={classes.board_add_card}
-            editClass={classes.board_add_card_edit}
-            onSubmit={(value: string) => addCard(board?.id, value)}
-          />
         </div>
       </div>
     </div>

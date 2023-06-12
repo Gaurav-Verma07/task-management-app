@@ -9,8 +9,8 @@ import ModalBox from "@/components/Modal/Modal";
 interface CardInfoProps {
   // onClose: () => void;
   card: ICard;
-  boardId: number;
-  updateCard: (boardId: number, cardId: number, card: ICard) => void;
+  boardId: string;
+  updateCard: (boardId: string, cardId: string, card: ICard) => void;
 }
 
 export const colorsList = [
@@ -117,7 +117,7 @@ function CardInfo(props: CardInfoProps) {
   };
 
   useEffect(() => {
-    if (updateCard) updateCard(boardId, cardValues.id, cardValues);
+    if (updateCard) updateCard(boardId, cardValues.$id, cardValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardValues]);
 

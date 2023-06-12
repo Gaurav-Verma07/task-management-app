@@ -6,30 +6,11 @@ const Box = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log({ id });
-
-  let RenderComponent;
-
-  switch (id) {
-    case 'home':
-      RenderComponent = Dashboard;
-      break;
-    case 'analytics':
-      RenderComponent = Stats;
-      break;
-    case 'user':
-      RenderComponent = Profile;
-      break;
-    default:
-      RenderComponent = null;
-  }
-
   return (
     <AppShell
       sx={() => ({
         position: 'relative',
         '& .mantine-1682jzp': {
-          // paddingLeft: '10px',
           width: 0,
           '@media (max-width:900px)': {
             paddingLeft: '10px',
@@ -55,8 +36,6 @@ const Box = () => {
         <Paper
           sx={() => ({
             background: '#fff',
-            // maxWidth: '1100px',
-            // height: '85vh',
             padding: '15px 0',
             margin: '0 10px',
             borderRadius: '0px',
@@ -64,10 +43,12 @@ const Box = () => {
             borderBottom: '1px solid #777777',
           })}
         >
-          DashBoard
+          {id?.toString().toUpperCase()}
         </Paper>
         <ScrollArea w={'100%'} h="100%" scrollbarSize={12}>
-          <Dashboard />
+          {id === 'home' && <Dashboard />}
+          {id === 'user' && <Profile />}
+          {id === 'analytics' && <Stats />}
         </ScrollArea>
       </Paper>
     </AppShell>

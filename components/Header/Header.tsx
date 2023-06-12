@@ -19,6 +19,7 @@ const Header = () => {
         console.log(res);
         setUserData((prev) => ({ ...prev, isLoggedIn: false }));
         router.push('/');
+        localStorage.removeItem('userId');
       })
       .catch((err) => console.log(err));
   };
@@ -76,19 +77,6 @@ const Header = () => {
               }}
             />
           </Tooltip>
-          // <>
-          //   <button
-          //     className={clsx(classes.btn)}
-          //     onClick={() => {
-          //       setIsOpen(true);
-          //     }}
-          //   >
-          //     Login
-          //   </button>
-          //   <Link href="/signup" className={clsx(classes.btn, classes.signup)}>
-          //     Get Started
-          //   </Link>
-          // </>
         )}
       </div>
       {isOpen && <Login />}

@@ -1,6 +1,6 @@
 import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import classes from './styles.module.css';
-import { Stepper, Button, Group, Paper, AspectRatio, TextInput, PasswordInput, } from '@mantine/core';
+import { Stepper, Button, Group, Paper, AspectRatio, TextInput, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Upload from '../DropZone/DropZone';
 import { account, db } from '@/services/appwriteConfig';
@@ -15,7 +15,7 @@ import { UserDataContext } from '@/context';
 const Signup = () => {
   const [active, setActive] = useState(0);
   const [isSigned, setIsSigned] = useState(false);
-  const id = uniqueId;
+  const id = uniqueId();
   const { setUserData } = useContext(UserDataContext);
   const router = useRouter();
 
@@ -72,6 +72,7 @@ const Signup = () => {
           color,
         });
         console.log('userDB', { data });
+        localStorage.setItem('userId', id);
         setUserData({
           userId: id,
           username: form.values.name,
@@ -103,6 +104,7 @@ const Signup = () => {
         toast.info('Email verified');
         setIsSigned(true);
       });
+      localStorage.setItem('userId', id);
     }
   }
 

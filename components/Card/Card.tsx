@@ -9,20 +9,21 @@ import { ModalContext } from '@/context';
 
 interface CardProps {
   card: ICard;
-  boardId: number;
-  removeCard: (boardId: number, cardId: number) => void;
-  onDragEnd: (boardId: number, cardId: number) => void;
-  onDragEnter: (boardId: number, cardId: number) => void;
-  updateCard: (boardId: number, cardId: number, card: ICard) => void;
+  boardId: string;
+  removeCard: (boardId: string, cardId: string) => void;
+  onDragEnd: (boardId: string, cardId: string) => void;
+  onDragEnter: (boardId: string, cardId: string) => void;
+  updateCard: (boardId: string, cardId: string, card: ICard) => void;
 }
 
 function Card(props: CardProps) {
   const { card, boardId, removeCard, onDragEnd, onDragEnter, updateCard } = props;
-  const { id, title, desc, date, tasks, labels } = card;
+  console.log({ card });
+  const { $id, title, desc, date, tasks, labels } = card;
+  console.log({ boardId, $id });
   const [showDropdown, setShowDropdown] = useState(false);
   // const [showModal, setShowModal] = useState(false);
   const { setIsOpen, isOpen } = useContext(ModalContext);
-  console.log('card',{card})
 
   return (
     <>
@@ -31,10 +32,13 @@ function Card(props: CardProps) {
       )} */}
       <div
         className={classes.card}
-        key={card.id}
+        key={card.$id}
         draggable
-        onDragEnd={() => onDragEnd(boardId, id)}
-        onDragEnter={() => onDragEnter(boardId, id)}
+        onDragEnd={() => {
+          console.log('drag end');
+          onDragEnd(boardId, $id);
+        }}
+        onDragEnter={() => onDragEnter(boardId, $id)}
         onClick={() => setIsOpen(true)}
       >
         <div className={classes['card-top']}>
@@ -53,7 +57,7 @@ function Card(props: CardProps) {
             <IconDots />
             {showDropdown && (
               <Dropdown class="board-dropdown" onClose={() => setShowDropdown(false)}>
-                <p onClick={() => removeCard(boardId, id)}>Delete Card</p>
+                <p onClick={() => removeCard(boardId, $id)}>Delete Card</p>
               </Dropdown>
             )}
           </div>
@@ -79,9 +83,7 @@ function Card(props: CardProps) {
           )}
         </div>
       </div>
-        {isOpen && (
-          <CardInfo card={card} boardId={boardId} updateCard={updateCard} />
-        )}
+      {isOpen && <CardInfo card={card} boardId={boardId} updateCard={updateCard} />}
     </>
   );
 }

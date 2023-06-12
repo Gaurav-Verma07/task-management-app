@@ -12,7 +12,7 @@ const Upload = (props: Partial<DropzoneProps>) => {
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const { userData, setUserData } = useContext(UserDataContext);
   const [isUploaded, setIsUploaded] = useState(false);
-  // const id = uniqueId;
+  // const id = uniqueId();
 
   const uploadImageHandler = async (file: any) => {
     try {
