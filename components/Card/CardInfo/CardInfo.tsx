@@ -47,7 +47,7 @@ function CardInfo() {
         console.log(err);
         setIsLoading(!isLoading);
       });
-  }, []);
+  }, [cardId]);
 
   const updateTitle = (value: string) => {
     setCardValues({ ...cardValues, title: value });

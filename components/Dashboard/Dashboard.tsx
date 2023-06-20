@@ -91,7 +91,7 @@ function Dashboard() {
       .catch((err) => {
         console.log({ err });
       });
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const unsubscribe = client.subscribe(
