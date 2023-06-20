@@ -6,25 +6,30 @@ import classes from './styles.module.css';
 import { db, storage } from '@/services/appwriteConfig';
 import { toast } from 'react-toastify';
 import { UserDataContext } from '@/context';
+import { config } from '@/services/config';
 
 const Upload = (props: Partial<DropzoneProps>) => {
   const theme = useMantineTheme();
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const { userData, setUserData } = useContext(UserDataContext);
   const [isUploaded, setIsUploaded] = useState(false);
-  // const id = uniqueId();
 
   const uploadImageHandler = async (file: any) => {
     try {
       if (!isUploaded) {
-        const data = await storage.createFile('6481ca77cc63dcae7209', userData.userId, file);
+        const data = await storage.createFile(config.NEXT_PUBLIC_BUCKET_ID, userData.userId, file);
         console.log({ data });
-        const docData = await db.updateDocument('6481cad1448109f73920', '6481cada40114c73e2c1', userData.userId, {
-          isPic: true,
-        });
+        const docData = await db.updateDocument(
+          config.NEXT_PUBLIC_DATABASE_ID,
+          config.NEXT_PUBLIC_USERDATA_COLLECTION_ID,
+          userData.userId,
+          {
+            isPic: true,
+          },
+        );
         setIsUploaded(true);
       } else {
-        const updatedData = await storage.updateFile('6481ca77cc63dcae7209', userData.userId, file);
+        const updatedData = await storage.updateFile(config.NEXT_PUBLIC_BUCKET_ID, userData.userId, file);
         console.log({ updatedData });
       }
       setUserData((prev) => ({ ...prev, isPic: true }));
@@ -100,7 +105,6 @@ const Upload = (props: Partial<DropzoneProps>) => {
         </Group>
       </Dropzone>
       {previews}
-      {/* <Image src={storage.getFilePreview('6481ca77cc63dcae7209', userData.userId)} alt='pic' /> */}
     </div>
   );
 };

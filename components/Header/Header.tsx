@@ -9,7 +9,7 @@ import { account, storage } from '@/services/appwriteConfig';
 import { useRouter } from 'next/router';
 import { ModalContext, UserDataContext } from '@/context';
 const Header = () => {
-  const { isOpen, setIsOpen } = useContext(ModalContext);
+  const { isModal, setIsModal } = useContext(ModalContext);
   const { userData, setUserData } = useContext(UserDataContext);
   const router = useRouter();
   const logoutHandler = () => {
@@ -73,13 +73,13 @@ const Header = () => {
                 cursor: 'pointer',
               })}
               onClick={() => {
-                setIsOpen(true);
+                setIsModal({ ...isModal, isOpen: true, isLogging: true });
               }}
             />
           </Tooltip>
         )}
       </div>
-      {isOpen && <Login />}
+      {isModal.isLogging && <Login />}
     </section>
   );
 };

@@ -1,12 +1,8 @@
 .cardinfo {
-  padding: 30px;
+  padding: 30px 10px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  min-width: 550px;
-  width: fit-content;
-  max-width: 650px;
-  height: fit-content;
 }
 
 .cardinfo-box {
@@ -68,13 +64,12 @@
 }
 
 .cardinfo-box ul .li-active {
-  box-shadow: 0 0 0 3px yellow; 
-  border: 2px solid red;
+  border: 2px solid #777777;
   padding: 8px;
 }
 
 .cardinfo-box-progress-bar {
-  width: 100%;
+  /* width: 100%; */
   border-radius: 30px;
   height: 10px;
   border: 1px solid #ccc;
@@ -97,6 +92,7 @@
 .cardinfo-box-task-checkbox {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .cardinfo-box-task-checkbox input,
@@ -116,11 +112,16 @@
   text-decoration-line: line-through;
 }
 
-.cardinfo-box input[type="date"] {
+.cardinfo-box input[type='date'] {
   width: fit-content;
   border: 2px solid #ddd;
   border-radius: 5px;
   outline: none;
   font-size: 1rem;
   padding: 10px;
+}
+
+
+.trashIcon{
+  align-self: flex-end;
 }

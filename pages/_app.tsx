@@ -7,9 +7,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { account, db } from '@/services/appwriteConfig';
 import { ModalContext, UserDataContext } from '@/context';
+import CardContext from '@/context/cardContext';
+import { config } from '@/services/config';
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModal, setIsModal] = useState({
+    isOpen: false,
+    isLogging: false,
+    isCard: false,
+  });
   const [userData, setUserData] = useState({
     userId: '',
     username: '',
@@ -19,9 +25,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     isPic: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [cardId, setCardId] = useState('');
 
   useEffect(() => {
-    // if (userData.isLoggedIn) {
     account
       .getSession('current')
       .then((res) => {
@@ -32,7 +38,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       .get()
       .then((res) => {
         const userId = res.$id;
-        db.getDocument('6481cad1448109f73920', '6481cada40114c73e2c1', userId)
+        db.getDocument(config.NEXT_PUBLIC_DATABASE_ID, config.NEXT_PUBLIC_USERDATA_COLLECTION_ID, userId)
           .then((res) => {
             const { userId, username, email, color, isPic } = res;
             setUserData({
@@ -55,14 +61,16 @@ const App = ({ Component, pageProps }: AppProps) => {
       {isLoading ? (
         <p>Loading ho rha hai bhai</p>
       ) : (
-        <UserDataContext.Provider value={{ userData, setUserData }}>
-          <ModalContext.Provider value={{ isOpen, setIsOpen }}>
-            <Layout>
-              <Component {...pageProps} />
-              <ToastContainer />
-            </Layout>
-          </ModalContext.Provider>
-        </UserDataContext.Provider>
+        <CardContext.Provider value={{ cardId, setCardId }}>
+          <UserDataContext.Provider value={{ userData, setUserData }}>
+            <ModalContext.Provider value={{ isModal, setIsModal }}>
+              <Layout>
+                <Component {...pageProps} />
+                <ToastContainer />
+              </Layout>
+            </ModalContext.Provider>
+          </UserDataContext.Provider>
+        </CardContext.Provider>
       )}
     </>
   );

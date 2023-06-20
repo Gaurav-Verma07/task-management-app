@@ -6,10 +6,11 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { ModalContext, UserDataContext } from '@/context';
+import { config } from '@/services/config';
 
 const Login = () => {
   const router = useRouter();
-  const { setIsOpen } = useContext(ModalContext);
+  const { setIsModal } = useContext(ModalContext);
   const { userData, setUserData } = useContext(UserDataContext);
   const form = useForm({
     initialValues: {
@@ -28,7 +29,7 @@ const Login = () => {
       const loggedUser = await account.createEmailSession(form.values.email, form.values.password);
       const { userId } = loggedUser;
       localStorage.setItem('userId', userId);
-      db.getDocument('6481cad1448109f73920', '6481cada40114c73e2c1', userId)
+      db.getDocument(config.NEXT_PUBLIC_DATABASE_ID, config.NEXT_PUBLIC_USERDATA_COLLECTION_ID, userId)
         .then((res) => {
           const { userId, username, email, color, isPic } = res;
           setUserData({
@@ -42,7 +43,7 @@ const Login = () => {
         })
         .catch((err) => console.log(err));
 
-      setIsOpen(false);
+      setIsModal((prev) => ({ ...prev, isLogging: false }));
       // setUserData({})
     } catch (err: any) {
       toast.error(err.message);
@@ -50,7 +51,7 @@ const Login = () => {
   };
   const signupHandler = () => {
     router.push('/signup');
-    setIsOpen(false);
+    setIsModal((prev) => ({ ...prev, isLogging: false }));
   };
 
   const googleLogginHandler = async () => {
@@ -78,11 +79,6 @@ const Login = () => {
 
           <PasswordInput label="Password" placeholder="Your password" {...form.getInputProps('password')} radius="md" />
         </Stack>
-        {/* <Flex justify="right" mt={20}>
-          <Button style={{ background: '#5509F7' }} type="submit" radius="xl">
-            Login
-          </Button>
-        </Flex> */}
         <Group position="apart" mt="xl">
           <Anchor component="button" type="button" color="dimmed" onClick={signupHandler} size="xs">
             Don&apos;t have an account? Register

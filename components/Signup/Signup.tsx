@@ -10,6 +10,7 @@ import { uniqueId } from '@/utils/constants/uniqueId';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { UserDataContext } from '@/context';
+import { config } from '@/services/config';
 
 const Signup = () => {
   const [active, setActive] = useState(0);
@@ -64,12 +65,17 @@ const Signup = () => {
         const session = await account.createEmailSession(form.values.email, form.values.password);
 
         //user databse
-        const data = await db.createDocument('6481cad1448109f73920', '6481cada40114c73e2c1', id, {
-          userId: id,
-          username: form.values.name,
-          email: form.values.email,
-          color,
-        });
+        const data = await db.createDocument(
+          config.NEXT_PUBLIC_DATABASE_ID,
+          config.NEXT_PUBLIC_USERDATA_COLLECTION_ID,
+          id,
+          {
+            userId: id,
+            username: form.values.name,
+            email: form.values.email,
+            color,
+          },
+        );
         console.log('userDB', { data });
         localStorage.setItem('userId', id);
         setUserData({
@@ -119,7 +125,7 @@ const Signup = () => {
             <TextInput mt="md" label="Email" placeholder="Email" {...form.getInputProps('email')} />
             <PasswordInput mt="md" label="Password" placeholder="Password" {...form.getInputProps('password')} />
           </Stepper.Step>
-          <Stepper.Step label="Second step" description="Upload image">
+          <Stepper.Step label="Second step" description="Upload Profle Pic">
             <Upload />
           </Stepper.Step>
         </Stepper>

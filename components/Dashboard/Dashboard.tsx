@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './Dashboard.module.css';
-import { IBoard, ICard } from '@/Interfaces/Kanban';
+import { IBoard } from '@/Interfaces/Kanban';
 import Board from '../Board';
 import { client, db } from '@/services/appwriteConfig';
 import { Query } from 'appwrite';
 import { BOARD_ID } from '@/enums/boardIds';
+import { config } from '@/services/config';
 
 function Dashboard() {
   const [boards, setBoards] = useState<IBoard[]>([]);
@@ -13,29 +14,6 @@ function Dashboard() {
     boardId: '',
     cardId: '',
   });
-
-  const removeBoard = (boardId: string) => {
-    const boardIndex = boards.findIndex((item: IBoard) => item.id === boardId);
-    if (boardIndex < 0) return;
-
-    const tempBoardsList = [...boards];
-    tempBoardsList.splice(boardIndex, 1);
-    setBoards(tempBoardsList);
-  };
-
-  const removeCard = (boardId: string, cardId: string) => {
-    const boardIndex = boards.findIndex((item: IBoard) => item.id === boardId);
-    if (boardIndex < 0) return;
-
-    const tempBoardsList = [...boards];
-    const cards = tempBoardsList[boardIndex].cards;
-
-    const cardIndex = cards.findIndex((item: any) => item.id === cardId);
-    if (cardIndex < 0) return;
-
-    cards.splice(cardIndex, 1);
-    setBoards(tempBoardsList);
-  };
 
   const setBoardHandler = (documents: any) => {
     const task = documents.filter((doc: any) => doc.taskType === BOARD_ID.TASK);
@@ -48,28 +26,34 @@ function Dashboard() {
       {
         id: BOARD_ID.TASK,
         title: BOARD_ID.TASK,
+        color: 'yellow',
         cards: prev[0].cards.concat(task),
       },
       {
         id: BOARD_ID.DOING,
         title: BOARD_ID.DOING,
+        color: 'teal',
         cards: prev[1].cards.concat(doing),
       },
       {
         id: BOARD_ID.REVIEW,
         title: BOARD_ID.REVIEW,
+        color: 'red',
         cards: prev[2].cards.concat(review),
       },
       {
         id: BOARD_ID.COMPLETED,
         title: BOARD_ID.COMPLETED,
+        color: 'cyan',
         cards: prev[3].cards.concat(completed),
       },
     ]);
   };
 
   useEffect(() => {
-    db.listDocuments('6481cad1448109f73920', '64844263188c2cafbebb', [Query.equal('userId', `${userId}`)])
+    db.listDocuments(config.NEXT_PUBLIC_DATABASE_ID, config.NEXT_PUBLIC_TASK_COLLECTION_ID, [
+      Query.equal('userId', `${userId}`),
+    ])
       .then((res) => {
         const { documents } = res;
         const task = documents.filter((doc) => doc.taskType === BOARD_ID.TASK);
@@ -81,21 +65,25 @@ function Dashboard() {
           {
             id: BOARD_ID.TASK,
             title: BOARD_ID.TASK,
+            color: 'yellow',
             cards: task,
           },
           {
             id: BOARD_ID.DOING,
             title: BOARD_ID.DOING,
+            color: 'teal',
             cards: doing,
           },
           {
             id: BOARD_ID.REVIEW,
             title: BOARD_ID.REVIEW,
+            color: 'red',
             cards: review,
           },
           {
             id: BOARD_ID.COMPLETED,
             title: BOARD_ID.COMPLETED,
+            color: 'cyan',
             cards: completed,
           },
         ]);
@@ -107,13 +95,14 @@ function Dashboard() {
 
   useEffect(() => {
     const unsubscribe = client.subscribe(
-      [`databases.6481cad1448109f73920.collections.64844263188c2cafbebb.documents`],
+      [`databases.${config.NEXT_PUBLIC_DATABASE_ID}.collections.${config.NEXT_PUBLIC_TASK_COLLECTION_ID}.documents`],
       (data) => {
         if (
-          data.events.includes('databases.6481cad1448109f73920.collections.64844263188c2cafbebb.documents.*.create')
+          data.events.includes(
+            `databases.${config.NEXT_PUBLIC_DATABASE_ID}.collections.${config.NEXT_PUBLIC_TASK_COLLECTION_ID}.documents.*.create`,
+          )
         ) {
           setBoardHandler([data.payload]);
-          // setAllTodo((todo: any) => [...todo, data.payload]);
         }
       },
     );
@@ -121,21 +110,6 @@ function Dashboard() {
       unsubscribe();
     };
   }, []);
-
-  const updateCard = (boardId: string, cardId: string, card: ICard) => {
-    const boardIndex = boards.findIndex((item) => item.id === boardId);
-    if (boardIndex < 0) return;
-
-    const tempBoardsList = [...boards];
-    const cards = tempBoardsList[boardIndex].cards;
-
-    const cardIndex = cards.findIndex((item: any) => item.id === cardId);
-    if (cardIndex < 0) return;
-
-    tempBoardsList[boardIndex].cards[cardIndex] = card;
-
-    setBoards(tempBoardsList);
-  };
 
   const onDragEnd = (boardId: string, cardId: string) => {
     const sourceBoardIndex = boards.findIndex((item: IBoard) => item.id === boardId);
@@ -150,15 +124,13 @@ function Dashboard() {
     const targetCardIndex = boards[targetBoardIndex]?.cards?.findIndex((item: any) => item.$id === targetCard.cardId);
     if (targetCardIndex < 0) return;
 
-    // console.log({sourceBoardIndex})
-
     const tempBoardsList = [...boards];
     const sourceCard = tempBoardsList[sourceBoardIndex].cards[sourceCardIndex];
     console.log({ sourceCard, boardINd: boards[targetBoardIndex].id });
     tempBoardsList[sourceBoardIndex].cards.splice(sourceCardIndex, 1);
     tempBoardsList[targetBoardIndex].cards.splice(targetCardIndex, 0, sourceCard);
     setBoards(tempBoardsList);
-    db.updateDocument('6481cad1448109f73920', '64844263188c2cafbebb', cardId, {
+    db.updateDocument(config.NEXT_PUBLIC_DATABASE_ID, config.NEXT_PUBLIC_TASK_COLLECTION_ID, cardId, {
       taskType: boards[targetBoardIndex].id,
     })
       .then((res) => {
@@ -185,15 +157,7 @@ function Dashboard() {
       <div className={classes['app-boards-container']}>
         <div className={classes['app-boards']}>
           {boards.map((item) => (
-            <Board
-              key={item.id}
-              board={item}
-              removeBoard={() => removeBoard(item.id)}
-              removeCard={removeCard}
-              onDragEnd={onDragEnd}
-              onDragEnter={onDragEnter}
-              updateCard={updateCard}
-            />
+            <Board key={item.id} board={item} onDragEnd={onDragEnd} onDragEnter={onDragEnter} />
           ))}
         </div>
       </div>

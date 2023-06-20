@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from './CustomInput.module.css';
 import { IconX } from '@tabler/icons-react';
-import { Button, TextInput } from '@mantine/core';
+import { Button, Text, TextInput } from '@mantine/core';
 
 interface CustomInputProps {
   text: string;
@@ -54,12 +54,12 @@ function CustomInput(props: CustomInputProps) {
           </div>
         </form>
       ) : (
-        <p
+        <Text
           className={`${classes['custom-input-display']} ${displayClass ? displayClass : ''}`}
           onClick={() => setIsCustomInput(true)}
         >
           {text}
-        </p>
+        </Text>
       )}
     </div>
   );

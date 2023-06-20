@@ -22,16 +22,32 @@
   padding-bottom: 5px;
 }
 
-.board_header_title {
-  font-weight: bold;
-  font-size: 1rem;
+.board_details {
   display: flex;
-  gap: 5px;
   align-items: center;
 }
 
+.board_header_title {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #979797;
+  margin-left: 5px;
+}
+
 .board_header_title span {
-  color: rgb(145, 145, 145);
+  color: #fff;
+  font-size: 14px;
+  background-color: rgb(145, 145, 145);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .board_header_title_more {
@@ -59,7 +75,7 @@
   flex-direction: column;
   gap: 10px;
   /* overflow-y: auto; */
-  overflow:visible;
+  overflow: visible;
   scrollbar-width: 0;
 }
 

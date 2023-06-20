@@ -1,13 +1,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 interface modalProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<modalProps['isOpen']>>;
+  isModal: { isOpen: boolean; isLogging: boolean; isCard: boolean };
+  setIsModal: Dispatch<SetStateAction<modalProps['isModal']>>;
 }
 
 const ModalContext = React.createContext<modalProps>({
-  isOpen: false,
-  setIsOpen: () => {},
+  isModal: { isOpen: false, isLogging: false, isCard: false },
+  setIsModal: () => {},
 });
 
 export default ModalContext;

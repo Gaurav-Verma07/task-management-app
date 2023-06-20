@@ -1,4 +1,4 @@
-export interface ILabel {
+export interface ITags {
   color: string;
   text: string;
 }
@@ -12,7 +12,7 @@ export interface ITask {
 export interface ICard {
   $id: string;
   title: string;
-  labels: ILabel[];
+  tags: ITags[];
   date: string;
   tasks: ITask[];
   desc?: string;
@@ -21,5 +21,6 @@ export interface ICard {
 export interface IBoard {
   id: string;
   title: string;
+  color: string;
   cards: any;
 }
