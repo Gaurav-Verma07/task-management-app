@@ -24,15 +24,12 @@ const App = ({ Component, pageProps }: AppProps) => {
     isLoggedIn: false,
     isPic: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [cardId, setCardId] = useState('');
 
   useEffect(() => {
     account
       .getSession('current')
-      .then((res) => {
-        console.log({ res });
-      })
+      .then((res) => {})
       .catch((err) => console.log({ err }));
     account
       .get()
@@ -58,20 +55,16 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <p>Loading ho rha hai bhai</p>
-      ) : (
-        <CardContext.Provider value={{ cardId, setCardId }}>
-          <UserDataContext.Provider value={{ userData, setUserData }}>
-            <ModalContext.Provider value={{ isModal, setIsModal }}>
-              <Layout>
-                <Component {...pageProps} />
-                <ToastContainer />
-              </Layout>
-            </ModalContext.Provider>
-          </UserDataContext.Provider>
-        </CardContext.Provider>
-      )}
+      <CardContext.Provider value={{ cardId, setCardId }}>
+        <UserDataContext.Provider value={{ userData, setUserData }}>
+          <ModalContext.Provider value={{ isModal, setIsModal }}>
+            <Layout>
+              <Component {...pageProps} />
+              <ToastContainer />
+            </Layout>
+          </ModalContext.Provider>
+        </UserDataContext.Provider>
+      </CardContext.Provider>
     </>
   );
 };

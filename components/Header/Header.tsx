@@ -8,6 +8,8 @@ import { Avatar, Menu, Tooltip } from '@mantine/core';
 import { account, storage } from '@/services/appwriteConfig';
 import { useRouter } from 'next/router';
 import { ModalContext, UserDataContext } from '@/context';
+import { toast } from 'react-toastify';
+import { config } from '@/services/config';
 const Header = () => {
   const { isModal, setIsModal } = useContext(ModalContext);
   const { userData, setUserData } = useContext(UserDataContext);
@@ -16,17 +18,18 @@ const Header = () => {
     account
       .deleteSession('current')
       .then((res) => {
-        console.log(res);
         setUserData((prev) => ({ ...prev, isLoggedIn: false }));
         router.push('/');
         localStorage.removeItem('userId');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
 
   const dashboardHandler = () => {
     router.push('/dashboard/home');
   };
+  const profilePic:any=storage.getFilePreview(config.NEXT_PUBLIC_BUCKET_ID, userData.userId);
+
 
   return (
     <section className={classes.main}>
@@ -44,7 +47,7 @@ const Header = () => {
           >
             <Menu.Target>
               {userData.isPic ? (
-                <Avatar src={storage.getFilePreview('6481ca77cc63dcae7209', userData.userId)} radius="xl" size="lg" />
+                <Avatar src={profilePic} radius="xl" size="lg" />
               ) : (
                 <Avatar
                   radius="xl"
