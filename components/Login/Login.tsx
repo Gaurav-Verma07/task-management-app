@@ -56,7 +56,7 @@ const Login = () => {
 
   const googleLogginHandler = async () => {
     try {
-      account.createOAuth2Session('google', 'http://localhost:3000');
+      account.createOAuth2Session('google', config.NEXT_PUBLIC_APP_URL);
     } catch (err: any) {
       toast.error(err.message);
     }

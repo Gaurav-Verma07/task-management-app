@@ -89,7 +89,7 @@ const Signup = () => {
         setActive(1);
 
         //sending verification
-        await account.createVerification('http://localhost:3000/signup');
+        await account.createVerification(`${config.NEXT_PUBLIC_APP_URL}/signup`);
         toast.info('Verification mail sent');
         console.log({ session });
       }
