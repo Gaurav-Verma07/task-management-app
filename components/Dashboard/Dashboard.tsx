@@ -6,6 +6,18 @@ import { client, db } from '@/services/appwriteConfig';
 import { Query } from 'appwrite';
 import { BOARD_ID } from '@/enums/boardIds';
 import { config } from '@/services/config';
+import { toast } from 'react-toastify';
+
+const sortData = (data: any) => {
+  // Define a function to extract the assignedDate as a Date object
+  function getAssignedDate(obj: any): Date {
+    return new Date(obj.assignedDate);
+  }
+
+  // Sort the array based on assignedDate in ascending order
+  const sortedData = data.sort((a: any, b: any) => getAssignedDate(a).getTime() - getAssignedDate(b).getTime());
+  return sortedData;
+};
 
 function Dashboard() {
   const [boards, setBoards] = useState<IBoard[]>([]);
@@ -20,7 +32,6 @@ function Dashboard() {
     const doing = documents.filter((doc: any) => doc.taskType === BOARD_ID.DOING);
     const review = documents.filter((doc: any) => doc.taskType === BOARD_ID.REVIEW);
     const completed = documents.filter((doc: any) => doc.taskType === BOARD_ID.COMPLETED);
-    console.log({ documents, task, doing, review, completed });
 
     setBoards((prev) => [
       {
@@ -89,7 +100,7 @@ function Dashboard() {
         ]);
       })
       .catch((err) => {
-        console.log({ err });
+        toast.error(err.message);
       });
   }, [userId]);
 
@@ -126,17 +137,14 @@ function Dashboard() {
 
     const tempBoardsList = [...boards];
     const sourceCard = tempBoardsList[sourceBoardIndex].cards[sourceCardIndex];
-    console.log({ sourceCard, boardINd: boards[targetBoardIndex].id });
     tempBoardsList[sourceBoardIndex].cards.splice(sourceCardIndex, 1);
     tempBoardsList[targetBoardIndex].cards.splice(targetCardIndex, 0, sourceCard);
     setBoards(tempBoardsList);
     db.updateDocument(config.NEXT_PUBLIC_DATABASE_ID, config.NEXT_PUBLIC_TASK_COLLECTION_ID, cardId, {
       taskType: boards[targetBoardIndex].id,
     })
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log({ err }));
+      .then((res) => {})
+      .catch((err) => toast.error(err.message));
     setTargetCard({
       boardId: '',
       cardId: '',
@@ -144,7 +152,6 @@ function Dashboard() {
   };
 
   const onDragEnter = (boardId: string, cardId: string) => {
-    console.log('onDragEnter', { cardId });
     if (targetCard.cardId === cardId) return;
     setTargetCard({
       boardId: boardId,

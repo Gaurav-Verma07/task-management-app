@@ -63,12 +63,8 @@ function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps)
 
 const mockdata = [
   { icon: IconHome2, label: 'Home', to: '/dashboard/home' },
-  //   { icon: IconGauge, label: 'Dashboard' },
   { icon: IconDeviceDesktopAnalytics, label: 'Analytics', to: '/dashboard/analytics' },
-  //   { icon: IconCalendarStats, label: 'Releases' },
-  { icon: IconUser, label: 'Account', to: '/dashboard/user' },
-  //   { icon: IconFingerprint, label: 'Security' },
-  //   { icon: IconSettings, label: 'Settings' },
+  // { icon: IconUser, label: 'Account', to: '/dashboard/user' },
 ];
 
 const DashNavbar = () => {
@@ -100,7 +96,7 @@ const DashNavbar = () => {
         position: 'relative',
         zIndex: 100,
         background:
-          'linear-gradient(180deg, rgba(81, 0, 255, 0.75) 36.87%, rgba(80, 0, 250, 0.5475) 56.67%, rgba(85, 9, 247, 0.75) 97.29%)',
+          'linear-gradient(180deg, rgba(81, 0, 255, 1) 36.87%, rgba(81, 0, 255, 0.9) 56.67%, rgba(81, 0, 255, 0.9) 97.29%)',
       })}
     >
       <Navbar.Section grow mt={50}>
@@ -110,8 +106,9 @@ const DashNavbar = () => {
       </Navbar.Section>
       <Navbar.Section>
         <Stack justify="center" spacing={30}>
-          <IconSwitchHorizontal color="#fff" />
-          <IconLogout color="#fff" onClick={logoutHandler} />
+          <Tooltip label="Log Out" position="right" transitionProps={{ duration: 0 }}>
+            <IconLogout color="#fff" onClick={logoutHandler} />
+          </Tooltip>
         </Stack>
       </Navbar.Section>
     </Navbar>

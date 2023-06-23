@@ -28,7 +28,7 @@ const Box = () => {
           maxWidth: '1100px',
           height: '85vh',
           padding: '15px',
-          margin: '0 10px',
+          margin: '70px 10px 0 10px',
           borderRadius: '20px',
           overflow: 'hidden',
         })}

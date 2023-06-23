@@ -21,6 +21,8 @@ function Card(props: CardProps) {
   const { isModal, setIsModal } = useContext(ModalContext);
   const { cardId, setCardId } = useContext(CardContext);
 
+  
+
   return (
     <section>
       <div
